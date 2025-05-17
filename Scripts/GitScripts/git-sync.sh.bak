@@ -283,27 +283,6 @@ function main() {
     fi
 
     # Execute synchronization
-    function execute_syncing_script() {
-        # 执行同步前预处理
-        echo_info "正在执行同步预处理..."
-        if [[ -f "syncing.sh" ]]; then
-            echo_info "Found syncing.sh, executing..."
-            execute_command "bash syncing.sh"
-            if (($? != 0)); then
-                echo_warning "同步预处理执行失败，错误码：$?"
-                return 201  # 返回特殊状态码
-            fi
-        fi
-        return 0
-    }
-
-    # 执行预处理函数
-    execute_syncing_script
-    if (($? != 0)); then
-        echo_warning "预处理脚本执行失败，继续同步流程..."
-    fi
-
-    # 执行同步操作
     sync_repository
     local sync_result=$?
 

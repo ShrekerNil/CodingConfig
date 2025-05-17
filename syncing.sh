@@ -4,11 +4,11 @@
 declare -A SYNC_PATHS=(
     ["/d/QLRepo/QLConfig/Coding/Intellij/IdeaSetting_2023.3.8.zip"]="Intellij/"
     ["/d/QLRepo/QLConfig/Coding/Intellij/idea64.exe.vmoptions"]="Intellij/"
-    ["/d/QLRepo/QLConfig/Coding/MySQL/"]="./"
-    ["/d/QLRepo/QLConfig/Coding/Maven/"]="./"
     ["/d/QLRepo/QLConfig/Sublime/"]="Editors/"
     ["/d/QLRepo/QLConfig/VSCode/"]="Editors/"
     ["/d/QLRepo/QLConfig/Typora/"]="Editors/"
+    ["/d/QLRepo/QLConfig/Coding/MySQL/"]="./"
+    ["/d/QLRepo/QLConfig/Coding/Maven/"]="./"
     ["/d/QLRepo/QLConfig/Linux/Scripts/"]="./"
 )
 
