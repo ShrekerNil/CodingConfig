@@ -1,0 +1,2 @@
+/d/GitRepo/GitEE/QLNotes/Config/VanDyke/SecureCRT/SSH2.ini
+/d/GitRepo/GitEE/QLNotes/Config/VanDyke/SecureCRT/Sessions/Mine/AliyunECS.ini
