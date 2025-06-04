@@ -1,0 +1,467 @@
+/* ===========================
+   1. 变量定义（完全变量化改造）
+   =========================== */
+:root {
+    /* 主颜色 */
+    --title-color: #8064a9;
+    --text-color: #444444;
+    --light-text-color: #666666;
+    --link-color: #2aa899;
+    --code-color: #745fb5;
+    --code-fence-background-color: #F8F8F8;
+    --shadow-color: #eee;
+    --purple-light: rgba(116, 95, 181, 0.2);
+    --border: #e7e7e7;
+    --shadow: 3px 3px 10px var(--shadow-color);
+    --background-color: #fff;
+    --context-menu-bg-color: #eee;
+
+    /* 新增变量（原硬编码颜色） */
+    --table-border-color: #ddd;
+    --table-header-bg: #fcfcfc;
+    --mark-bg: #f9f2f4;
+    --mark-color: #c7254e;
+    --task-list-border: #b4b4b4;
+    --task-checkmark-color: #333;
+    --image-border-color: #dddddd;
+    --code-bg: #f4f2f9;
+    --code-highlight-text: #3a3432;
+    --code-highlight-gutter: #6d8a88;
+    --code-line-number: #b8b5b4;
+    --code-matching-bracket: #a34e8f;
+    --code-comment: #9daab6;
+    --code-builtin: #0451a5;
+    --table-row-even-bg: #eeeeee;
+    --selection-bg: rgba(128, 100, 169, 0.2);
+    --selection-color: rgba(51, 51, 51, 0.9);
+    /* 字体 */
+    --base-font: "Maple Mono NL NF CN Light", "Sarasa Mono SC", "JetBrains Mono NL", "Microsoft YaHei";
+    --code-font: var(--base-font);
+    --title-font: var(--base-font);
+}
+
+/* ===========================
+   2. 媒体查询 - 打印样式
+   =========================== */
+@media print {
+    html {
+        font-size: 0.9rem;
+    }
+
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+
+    pre {
+        word-wrap: break-word;
+    }
+
+    .md-fences {
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        background: var(--code-fence-background-color) !important;
+        font-size: 0.9rem;
+        line-height: initial;
+        font-family: var(--base-font);
+    }
+
+    #write {
+        max-width: 100%;
+    }
+
+    @page {
+        size: A3;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+/* ===========================
+   3. 通用样式
+   =========================== */
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: initial;
+}
+
+body {
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6rem;
+    letter-spacing: 0;
+    overflow-x: hidden;
+    font-family: var(--base-font);
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+}
+
+::-moz-selection {
+  background-color: var(--selection-bg);
+  color: var(--selection-color);
+}
+
+::selection {
+  background-color: var(--selection-bg);
+  color: var(--selection-color);
+}
+
+.context-menu {
+    background-color: var(--context-menu-bg-color);
+}
+
+/* ===========================
+   4. 页面布局
+   =========================== */
+#write {
+    margin: 0 auto;
+    padding: 1rem 4rem;
+    padding-bottom: 100px;
+    max-width: none;
+    width: 100%;
+}
+
+#write p {
+    line-height: 1.6rem;
+    word-spacing: 0.05rem;
+}
+
+body>*:first-child {
+    margin-top: 0 !important;
+}
+
+body>*:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* ===========================
+   5. 链接样式
+   =========================== */
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+#write a {
+    border-bottom: none;
+}
+
+#write a:hover {
+    border-bottom: 1px solid var(--link-color);
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+/* ===========================
+   6. 标题样式
+   =========================== */
+
+#write {
+    counter-reset: h1;
+}
+
+#write h1, h2, h3, h4, h5, h6 {
+    position: relative;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: normal;
+    line-height: 1.3;
+    cursor: text;
+    color: var(--title-color);
+    font-family: var(--title-font);
+    counter-reset: h2 h3 h4 h5 h6;
+}
+
+#write h1 {
+    text-align: center;
+    font-size: 2.25em;
+    margin-bottom: 2rem;
+    line-height: 2.75rem;
+}
+
+#write h1::before {
+    counter-increment: h1;
+    content: counter(h1, cjk-ideographic) "、";
+}
+
+#write h1::after {
+    content: "";
+    display: block;
+    margin: 0.2em auto 0;
+    width: 6rem;
+    height: 2px;
+    border-bottom: 2px solid var(--title-color);
+}
+
+#write h2 {
+    padding-left: 0.4em;
+    font-size: 1.75em;
+    border-left: 0.4em solid var(--title-color);
+    border-bottom: 1px solid var(--title-color);
+    counter-reset: h3;
+}
+
+#write h2::before {
+    counter-increment: h2;
+    content: counter(h2) "、";
+}
+
+#write h3 {
+    font-size: 1.5em;
+    counter-reset: h4;
+}
+
+#write h3::before {
+    counter-increment: h3;
+    content: counter(h2) "." counter(h3) " ";
+}
+
+#write h4 {
+    font-size: 1.3em;
+    counter-reset: h5;
+}
+
+#write h4::before {
+    counter-increment: h4;
+    content: counter(h2) "." counter(h3) "." counter(h4) " ";
+}
+
+#write h5 {
+    font-size: 1.2em;
+    counter-reset: h6;
+}
+
+#write h5::before {
+    counter-increment: h5;
+    content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " ";
+}
+
+#write h6 {
+    font-size: 1.1em;
+    counter-reset: none;
+}
+
+#write h6::before {
+    counter-increment: h6;
+    content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) " ";
+}
+
+/* ===========================
+   7. 表格样式
+   =========================== */
+table {
+    margin-bottom: 1.25rem;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table th,
+table td {
+    padding: 8px;
+    line-height: 1.25rem;
+    vertical-align: middle;
+    border: 1px solid var(--table-border-color);
+}
+
+table th {
+    font-weight: bold;
+    background-color: var(--table-header-bg);
+}
+
+table tr:nth-child(2n) {
+    background-color: var(--table-row-even-bg);
+}
+
+/* ===========================
+   8. 强调样式
+   =========================== */
+#write strong {
+    padding: 0 2px;
+    font-weight: bold;
+}
+
+#write mark {
+    background-color: var(--mark-bg);
+    border-radius: 0.3rem;
+    padding: 2px 4px;
+    margin: 0 2px;
+    color: var(--mark-color);
+}
+
+#write del {
+    padding: 1px 2px;
+}
+
+/* ===========================
+   9. 代码块样式
+   =========================== */
+.md-fences {
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: var(--code-fence-background-color) !important;
+    font-size: 1rem;
+    line-height: initial;
+}
+
+#write pre.md-fences {
+    display: block;
+    -webkit-overflow-scrolling: touch;
+    font-family: var(--code-font);    /* box-shadow: var(--shadow); */
+}
+
+#write code {
+    padding: 2px 4px;
+    border-radius: 0.3rem;
+    font-family: var(--code-font);
+    font-size: 1rem;
+    color: var(--code-color);
+    background-color: var(--code-bg);
+    margin: 1 2px;
+}
+
+/* ===========================
+   10. 图片样式
+   =========================== */
+img {
+    margin: 0 !important;
+    display: inline-flex;
+    border: solid 1px var(--image-border-color);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+/* ===========================
+   11. 任务列表样式
+   =========================== */
+
+/* ===========================
+   12. 侧边栏样式
+   =========================== */
+#typora-sidebar,
+.typora-node #typora-sidebar {
+    box-shadow: 3px 0px 10px var(--shadow-color);
+    background-color: var(--background-color);
+}
+
+.sidebar-content-content {
+    font-size: 0.9rem;
+}
+
+/* ===========================
+   13. 大纲自动编号
+   =========================== */
+.sidebar-content {
+    counter-reset: h1;
+}
+
+.outline-h1 {
+    counter-reset: h2;
+}
+
+.outline-h1>.outline-item>.outline-label::before {
+    counter-increment: h1;
+    content: counter(h1, cjk-ideographic) "、";
+}
+
+.outline-h2 {
+    counter-reset: h3;
+}
+
+.outline-h2>.outline-item>.outline-label::before {
+    counter-increment: h2;
+    content: counter(h2) "、";
+}
+
+.outline-h3 {
+    counter-reset: h4;
+}
+
+.outline-h3>.outline-item>.outline-label::before {
+    counter-increment: h3;
+    content: counter(h2) "." counter(h3) " ";
+}
+
+.outline-h4 {
+    counter-reset: h5;
+}
+
+.outline-h4>.outline-item>.outline-label::before {
+    counter-increment: h4;
+    content: counter(h2) "." counter(h3) "." counter(h4) " ";
+}
+
+.outline-h5 {
+    counter-reset: h6;
+}
+
+.outline-h5>.outline-item>.outline-label::before {
+    counter-increment: h5;
+    content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " ";
+}
+
+.outline-h6>.outline-item>.outline-label::before {
+    counter-increment: h6;
+    content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) " ";
+}
+
+/* ===========================
+   14. 代码高亮样式
+   =========================== */
+.cm-s-inner {
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+}
+
+.cm-s-inner.CodeMirror,
+.cm-s-inner .CodeMirror-gutters {
+    color: var(--code-highlight-text) !important;
+    border: none;
+}
+
+.cm-s-inner .CodeMirror-gutters {
+    color: var(--code-highlight-gutter);
+}
+
+.cm-s-inner .CodeMirror-linenumber {
+    padding: 0 0.1rem 0 0.3rem;
+    color: var(--code-line-number);
+}
+
+.cm-s-inner .CodeMirror-matchingbracket {
+    text-decoration: underline;
+    color: var(--code-matching-bracket) !important;
+}
+
+.cm-s-inner span.cm-comment {
+    color: var(--code-comment);
+}
+
+.cm-s-inner span.cm-builtin {
+    color: var(--code-builtin);
+}
+
+/* ===========================
+   15. 其他样式
+   =========================== */
+blockquote {
+    margin: 0.8em 0;
+    border-left: 0.3em solid var(--purple-light);
+    padding: 0.6em 1em;
+    color: var(--light-text-color);
+    font-family: var(--base-font);
+    border-radius: 5px;
+    background-color: var(--code-bg);
+}
+
+ol,
+ul {
+    margin-left: -0.5em;
+}
+
+li {
+    margin-left: 0.5em;
+}

@@ -1,0 +1,57 @@
+{
+    "ignored_packages":
+    [
+        "Vintage",
+    ],
+    "always_prompt_for_file_reload": true,
+    "auto_complete": true,
+    "auto_complete_commit_on_tab": false,
+    "auto_hide_menu": false,
+    "auto_hide_tabs": false,
+    "block_caret": false,
+    "bold_folder_labels": true,
+    "caret_extra_bottom": 0,
+    "caret_extra_top": 0,
+    "caret_extra_width": 1,
+    "caret_style": "smooth",
+    "close_find_after_find_all": false,
+    "close_find_after_replace_all": false,
+    "default_encoding": "UTF-8",
+    "default_line_ending": "unix",
+    "draw_white_space": ["selection"],
+    "enable_tab_scrolling": true,
+    "fade_fold_buttons": true,
+    "file_tab_style": "rounded",
+    "fold_buttons": false,
+    "font_options": ["gdi","no_bold"],
+    "font_size": 12,
+    "hide_new_tab_button": true,
+    "hide_tab_scrolling_buttons": false,
+    "highlight_line": true,
+    "highlight_modified_tabs": true,
+    "index_files": false,
+    "line_numbers": true,
+    "line_padding_bottom": 1,
+    "line_padding_top": 1,
+    "margin": 0,
+    "overlay_scroll_bars": "enable",
+    "reload_file_on_change": true,
+    "show_encoding": true,
+    "show_indentation": true,
+    "show_line_endings": true,
+    "show_syntax": true,
+    "show_tab_close_buttons": true,
+    "theme": "Default Dark.sublime-theme",
+    "translate_tabs_to_spaces": true,
+    "trim_trailing_white_space_on_save": true,
+    "word_wrap": true,
+    /*"font_face": "Cascadia Code PL Light",*/
+    /*"font_face": "Cascadia Mono PL Light",*/
+    /*"font_face": "JetBrains Mono",*/
+    /*"font_face": "Microsoft YaHei UI Light",*/
+    /*"font_face": "Microsoft YaHei UI",*/
+    /*"font_face": "NSimSun",*/
+    /*"font_face": "新宋体",*/
+    "font_face": "Maple Mono NL NF CN Light",
+    "word_separators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?，。《》",
+}

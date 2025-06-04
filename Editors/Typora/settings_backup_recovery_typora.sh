@@ -8,8 +8,12 @@ show_new_line() {
 program_operate="Typora"
 
 # Arrays for file backups and recoveries
-file_recoveries=("/c/Users/Shreker/AppData/Roaming/Typora/themes/purple-square.css" "/c/Users/Shreker/AppData/Roaming/Typora/profile.data")
-file_backups=("./Settings/purple-square.css" "./Settings/profile.data")
+file_recoveries=("/c/Users/Shreker/AppData/Roaming/Typora/themes/purple-square-light.css"
+    "/c/Users/Shreker/AppData/Roaming/Typora/themes/purple-square-dark.css"
+    "/c/Users/Shreker/AppData/Roaming/Typora/profile.data")
+file_backups=("./Settings/purple-square-light.css"
+    "./Settings/purple-square-dark.css"
+    "./Settings/profile.data")
 
 # Function to check if file exists
 file_exists() {
@@ -65,12 +69,13 @@ while true; do
     #     break
     # fi
     read -p "Press ENTER to continue or Any other key to exit: " cont
+    show_new_line
+    show_new_line
     if [[ -z "$cont" ]]; then
         continue
     else
         break
     fi
-    show_new_line
 done
 
 echo "Exiting the script."
