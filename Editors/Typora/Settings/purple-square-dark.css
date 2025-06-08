@@ -1,23 +1,21 @@
+@import url(./codemirror-dark.css);
+
 /* ===========================
    1. 变量定义（完全变量化改造）
    =========================== */
 :root {
-    /* 主颜色 */
-    --title-color: #b39ddb;
+    --bg-color: #333;
     --text-color: #e0e0e0;
+    --title-color: #b39ddb;
     --light-text-color: #9e9e9e;
     --link-color: #80cbc4;
     --code-color: #9a7bd9;
-    --code-fence-background-color: #2d2d2d;
+    --code-fence-bg-color: #2d2d2d;
     --shadow-color: rgba(0, 0, 0, 0.3);
-    --purple-light: rgb(102, 94, 126);
+    --blockquote-border-color: rgb(102, 94, 126);
     --border: #424242;
-    --background-color: #333;
     --context-menu-bg-color: #222;
 
-    --shadow: 3px 3px 10px var(--shadow-color);
-
-    /* 新增变量 */
     --table-border-color: #555;
     --table-header-bg: #363636;
     --mark-bg: #4d342e;
@@ -25,17 +23,21 @@
     --task-list-border: #757575;
     --task-checkmark-color: #fff;
     --image-border-color: #555;
-    --code-bg: #363636;
+    --code-bg-color: #363636;
     --code-highlight-text: #d6d6d6;
     --code-highlight-gutter: #757575;
-    --code-line-number: #757575;
+    --code-line-number: #b8b5b4;
     --code-matching-bracket: #ff5370;
     --code-comment: #757575;
     --code-builtin: #82aaff;
     --table-row-even-bg: #414141;
-    --selection-bg-color: rgba(179, 157, 219, 0.5);
-    --selection-text-color: rgba(255, 255, 255, 0.9);
+    --select-bg-color: rgba(179, 157, 219, 0.5);
+    --select-text-bg-color: rgba(255, 255, 255, 0.9);
     --outline-item-hover-color: #222;
+    --code-basic-color: #aaa;
+
+    --font-size: 16px;
+    --line-height: 1.3rem;
 
     /* 字体 */
     --base-font: "Maple Mono NL NF CN Light", "Sarasa Mono SC", "JetBrains Mono NL", "Microsoft YaHei";
@@ -47,6 +49,7 @@
     --active-file-text-color: var(--title-color);
     --active-file-bg-color: var(--shadow-color);
     --active-file-border-color: var(--title-color);
+    --shadow: 3px 3px 10px var(--shadow-color);
 }
 
 /* ===========================
@@ -69,7 +72,7 @@
     .md-fences {
         border: 1px solid var(--border);
         border-radius: 5px;
-        background: var(--code-fence-background-color) !important;
+        background: var(--code-fence-bg-color) !important;
         font-size: 0.9rem;
         line-height: initial;
         font-family: var(--base-font);
@@ -90,37 +93,37 @@
    3. 通用样式
    =========================== */
 html {
-    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    font-size: var(--font-size);
     -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
     -ms-text-size-adjust: 100%;
     text-rendering: optimizelegibility;
-    -webkit-font-smoothing: initial;
-}
-
-body {
-    color: var(--text-color);
-    -webkit-font-smoothing: antialiased;
-    line-height: 1.6rem;
+    line-height: var(--line-height);
     letter-spacing: 0;
     overflow-x: hidden;
     font-family: var(--base-font);
-    margin: 0;
-    padding: 0;
-    background-color: var(--background-color);
+    color: var(--text-color);
+    background-color: var(--bg-color);
 }
 
 ::-moz-selection {
-  background-color: var(--selection-bg-color);
-  color: var(--selection-text-color);
+    background-color: var(--select-bg-color);
+    color: var(--select-text-bg-color);
 }
 
 ::selection {
-  background-color: var(--selection-bg-color);
-  color: var(--selection-text-color);
+    background-color: var(--select-bg-color);
+    color: var(--select-text-bg-color);
 }
 
 .context-menu {
     background-color: var(--context-menu-bg-color);
+}
+
+.context-menu.dropdown-menu .divider {
+    background-color: #232629;
 }
 
 /* ===========================
@@ -132,6 +135,7 @@ body {
     padding-bottom: 100px;
     max-width: none;
     width: 100%;
+    caret-color: var(--text-color);
 }
 
 #write p {
@@ -173,7 +177,12 @@ a {
     counter-reset: h1;
 }
 
-#write h1, h2, h3, h4, h5, h6 {
+#write h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     position: relative;
     margin-top: 2rem;
     margin-bottom: 1rem;
@@ -308,18 +317,13 @@ table tr:nth-child(2n) {
 /* ===========================
    9. 代码块样式
    =========================== */
-.md-fences {
+#write pre.md-fences {
     border: 1px solid var(--border);
-    border-radius: 5px;
-    background: var(--code-fence-background-color) !important;
+    background: var(--code-fence-bg-color) !important;
     font-size: 1rem;
     line-height: initial;
-}
-
-#write pre.md-fences {
     display: block;
-    -webkit-overflow-scrolling: touch;
-    font-family: var(--code-font);    /* box-shadow: var(--shadow); */
+    font-family: var(--code-font);
 }
 
 #write code {
@@ -328,7 +332,7 @@ table tr:nth-child(2n) {
     font-family: var(--code-font);
     font-size: 1rem;
     color: var(--code-color);
-    background-color: var(--code-bg);
+    background-color: var(--code-bg-color);
     margin: 1 2px;
 }
 
@@ -356,7 +360,7 @@ img {
 #typora-sidebar,
 .typora-node #typora-sidebar {
     box-shadow: 3px 0px 10px var(--shadow-color);
-    background-color: var(--background-color);
+    background-color: var(--bg-color);
 }
 
 .sidebar-content-content {
@@ -368,7 +372,7 @@ img {
 }
 
 #file-library-search-input {
-    background-color: var(--background-color);
+    background-color: var(--bg-color);
 }
 
 /* ===========================
@@ -431,9 +435,17 @@ img {
 /* ===========================
    14. 代码高亮样式
    =========================== */
-.cm-s-inner {
+/* .cm-s-inner {
     padding: 0.25rem;
     border-radius: 0.25rem;
+}
+
+.cm-s-inner .cm-variable {
+    color: var(--code-basic-color);
+}
+
+.cm-s-inner .cm-property {
+    color: var(--code-basic-color);
 }
 
 .cm-s-inner.CodeMirror,
@@ -462,33 +474,38 @@ img {
 
 .cm-s-inner span.cm-builtin {
     color: var(--code-builtin);
-}
+} */
 
 /* ===========================
    15. 源码模式下选中样式
    =========================== */
-/*
 .CodeMirror-selected {
-    background-color: var(--selection-bg-color) !important;
+    background-color: var(--select-bg-color) !important;
 }
 
 .CodeMirror-focused .CodeMirror-selected {
-    color: var(--selection-text-color) !important;
+    color: var(--select-text-bg-color) !important;
 }
 
 .CodeMirror-activeline .CodeMirror-gutter-elt {
     color: var(--title-color) !important;
 }
-*/
-
 
 .CodeMirror-activeline .CodeMirror-line {
     color: var(--text-color) !important;
 }
 
-.CodeMirror-selected, .CodeMirror-selectedtext {
-    background-color: var(--selection-bg-color) !important;
-    color: var(--selection-text-color) !important;
+.CodeMirror-selected,
+.CodeMirror-selectedtext {
+    background-color: var(--select-bg-color) !important;
+    color: var(--select-text-bg-color) !important;
+}
+
+/* ===========================
+   16. 偏好设置
+   =========================== */
+.unibody-window {
+    background: var(--bg-color)
 }
 
 /* ===========================
@@ -496,12 +513,12 @@ img {
    =========================== */
 blockquote {
     margin: 0.8em 0;
-    border-left: 0.3em solid var(--purple-light);
+    border-left: 0.3em solid var(--blockquote-border-color);
     padding: 0.6em 1em;
     color: var(--light-text-color);
     font-family: var(--base-font);
     border-radius: 5px;
-    background-color: var(--code-bg);
+    background-color: var(--code-bg-color);
 }
 
 ol,

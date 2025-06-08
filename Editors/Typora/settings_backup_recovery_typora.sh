@@ -10,9 +10,13 @@ program_operate="Typora"
 # Arrays for file backups and recoveries
 file_recoveries=("/c/Users/Shreker/AppData/Roaming/Typora/themes/purple-square-light.css"
     "/c/Users/Shreker/AppData/Roaming/Typora/themes/purple-square-dark.css"
+    "/c/Users/Shreker/AppData/Roaming/Typora/themes/codemirror-dark.css"
+    "/c/Users/Shreker/AppData/Roaming/Typora/themes/codemirror-light.css"
     "/c/Users/Shreker/AppData/Roaming/Typora/profile.data")
 file_backups=("./Settings/purple-square-light.css"
     "./Settings/purple-square-dark.css"
+    "./Settings/codemirror-dark.css"
+    "./Settings/codemirror-light.css"
     "./Settings/profile.data")
 
 # Function to check if file exists
@@ -63,13 +67,11 @@ while true; do
             ;;
     esac
 
-    show_new_line
     # read -p "Do you want to continue? (yes/no): " cont
     # if [[ "$cont" != "yes" ]]; then
     #     break
     # fi
-    read -p "Press ENTER to continue or Any other key to exit: " cont
-    show_new_line
+    # read -p "Press ENTER to continue or Any other key to exit: " cont
     show_new_line
     if [[ -z "$cont" ]]; then
         continue

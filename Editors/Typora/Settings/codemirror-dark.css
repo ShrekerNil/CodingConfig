@@ -1,0 +1,478 @@
+:root {
+    /* 背景色 */
+    --background-color: #1e1e1e;
+    /* 文本颜色 */
+    --text-color: #d4d4d4;
+    /* 关键字颜色 */
+    --keyword-color: #569cd6;
+    /* 原子类型颜色 */
+    --atom-color: #2196f3;
+    /* 数字颜色 */
+    --number-color: #b5cea8;
+    /* 定义颜色 */
+    --def-color: #4ec9b0;
+    /* 变量颜色 */
+    --variable-color: #d4d4d4;
+    /* 变量2颜色 */
+    --variable-2-color: #9cdcfe;
+    /* 变量3颜色 */
+    --variable-3-color: #4ec9b0;
+    /* 字符串颜色 */
+    --string-color: #d69d85;
+    /* 属性颜色 */
+    --property-color: #d4d4d4;
+    /* 操作符颜色 */
+    --operator-color: #c586c0;
+    /* 注释颜色 */
+    --comment-color: #6a9955;
+    /* 字符串2颜色 */
+    --string-2-color: #ce9178;
+    /* 元数据颜色 */
+    --meta-color: #d4d4d4;
+    /* 限定符颜色 */
+    --qualifier-color: #d4d4d4;
+    /* 内置函数颜色 */
+    --builtin-color: #4ec9b0;
+    /* 括号颜色 */
+    --bracket-color: #d4d4d4;
+    /* 标签颜色 */
+    --tag-color: #4ec9b0;
+    /* 属性颜色 */
+    --attribute-color: #9cdcfe;
+    /* 标题颜色 */
+    --header-color: #4ec9b0;
+    /* 引用颜色 */
+    --quote-color: #4ec9b0;
+    /* 水平线颜色 */
+    --hr-color: #d4d4d4;
+    /* 链接颜色 */
+    --link-color: #9cdcfe;
+    /* 负数颜色 */
+    --negative-color: #d44;
+    /* 正数颜色 */
+    --positive-color: #292;
+    /* 错误颜色 */
+    --error-color: #f44747;
+    /* 无效字符颜色 */
+    --invalidchar-color: #f44747;
+    /* 常量颜色 */
+    --constant-color: #4ec9b0;
+    /* 定义颜色 */
+    --defined-color: #4ec9b0;
+    /* 匹配括号颜色 */
+    --matchingbracket-color: #0f0;
+    /* 不匹配括号颜色 */
+    --nonmatchingbracket-color: #f22;
+    /* 活动行背景色 */
+    --activeline-background: #2a2a2a;
+    /* 行号和代码分割线 */
+    --seperator-line-num-code: #666;
+    /* 行号颜色 */
+    --code-line-number-color: #757575;
+}
+
+.CodeMirror {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    height: 300px;
+    height: auto
+}
+
+.CodeMirror.cm-s-inner {
+    background: inherit
+}
+
+.CodeMirror-scroll {
+    overflow-y: hidden;
+    overflow-x: auto;
+    z-index: 3
+}
+
+.CodeMirror-gutter-filler,
+.CodeMirror-scrollbar-filler {
+    background-color: var(--background-color);
+}
+
+.CodeMirror-linenumber {
+    padding: 0 3px 0 5px;
+    text-align: right;
+    color: var(--code-line-number-color);
+}
+
+.cm-s-inner .cm-keyword {
+    color: var(--keyword-color);
+}
+
+.cm-s-inner .cm-atom,
+.cm-s-inner.cm-atom {
+    color: var(--atom-color);
+}
+
+.cm-s-inner .cm-number {
+    color: var(--number-color);
+}
+
+.cm-s-inner .cm-def {
+    color: var(--def-color);
+}
+
+.cm-s-inner .cm-variable {
+    color: var(--variable-color);
+}
+
+.cm-s-inner .cm-variable-2 {
+    color: var(--variable-2-color);
+}
+
+.cm-s-inner .cm-variable-3 {
+    color: var(--variable-3-color);
+}
+
+.cm-s-inner .cm-string {
+    color: var(--string-color);
+}
+
+.cm-s-inner .cm-property {
+    color: var(--property-color);
+}
+
+.cm-s-inner .cm-operator {
+    color: var(--operator-color);
+}
+
+.cm-s-inner .cm-comment,
+.cm-s-inner.cm-comment {
+    color: var(--comment-color);
+}
+
+.cm-s-inner .cm-string-2 {
+    color: var(--string-2-color);
+}
+
+.cm-s-inner .cm-meta {
+    color: var(--meta-color);
+}
+
+.cm-s-inner .cm-qualifier {
+    color: var(--qualifier-color);
+}
+
+.cm-s-inner .cm-builtin {
+    color: var(--builtin-color);
+}
+
+.cm-s-inner .cm-bracket {
+    color: var(--bracket-color);
+}
+
+.cm-s-inner .cm-tag {
+    color: var(--tag-color);
+}
+
+.cm-s-inner .cm-attribute {
+    color: var(--attribute-color);
+}
+
+.cm-s-inner .cm-header,
+.cm-s-inner.cm-header {
+    color: var(--header-color);
+}
+
+.cm-s-inner .cm-quote,
+.cm-s-inner.cm-quote {
+    color: var(--quote-color);
+}
+
+.cm-s-inner .cm-hr,
+.cm-s-inner.cm-hr {
+    color: var(--hr-color);
+}
+
+.cm-s-inner .cm-link,
+.cm-s-inner.cm-link {
+    color: var(--link-color);
+}
+
+.cm-negative {
+    color: var(--negative-color);
+}
+
+.cm-positive {
+    color: var(--positive-color);
+}
+
+.cm-header,
+.cm-strong {
+    font-weight: 700;
+}
+
+.cm-del {
+    text-decoration: line-through;
+}
+
+.cm-em {
+    font-style: italic;
+}
+
+.cm-link {
+    text-decoration: underline;
+}
+
+.cm-error {
+    color: var(--error-color);
+}
+
+.cm-invalidchar {
+    color: var(--invalidchar-color);
+}
+
+.cm-constant {
+    color: var(--constant-color);
+}
+
+.cm-defined {
+    color: var(--defined-color);
+}
+
+div.CodeMirror span.CodeMirror-matchingbracket {
+    color: var(--matchingbracket-color);
+}
+
+div.CodeMirror span.CodeMirror-nonmatchingbracket {
+    color: var(--nonmatchingbracket-color);
+}
+
+.cm-s-inner .CodeMirror-activeline-background {
+    background: var(--activeline-background);
+}
+
+.CodeMirror {
+    position: relative;
+    overflow: hidden
+}
+
+.CodeMirror-scroll {
+    height: 100%;
+    outline: 0;
+    position: relative;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    background: inherit
+}
+
+.CodeMirror-sizer {
+    position: relative
+}
+
+.CodeMirror-gutter-filler,
+.CodeMirror-hscrollbar,
+.CodeMirror-scrollbar-filler,
+.CodeMirror-vscrollbar {
+    position: absolute;
+    z-index: 6;
+    display: none;
+    outline: 0
+}
+
+.CodeMirror-vscrollbar {
+    right: 0;
+    top: 0;
+    overflow-x: hidden;
+    overflow-y: hidden
+}
+
+.CodeMirror-hscrollbar {
+    bottom: 0;
+    left: 0;
+    overflow-y: hidden;
+    overflow-x: auto
+}
+
+.CodeMirror-scrollbar-filler {
+    right: 0;
+    bottom: 0
+}
+
+.CodeMirror-gutter-filler {
+    left: 0;
+    bottom: 0
+}
+
+.CodeMirror-gutters {
+    border-right: 1px solid var(--seperator-line-num-code);
+    background: var(--background-color);
+    white-space: nowrap;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding-bottom: 10px;
+    z-index: 3;
+    overflow-y: hidden
+}
+
+.CodeMirror-gutter {
+    white-space: normal;
+    height: 100%;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    padding-bottom: 30px;
+    margin-bottom: -32px;
+    display: inline-block;
+}
+
+.CodeMirror-gutter-wrapper {
+    position: absolute;
+    z-index: 4;
+    background: 0 0 !important;
+    border: none !important
+}
+
+.CodeMirror-gutter-background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 4
+}
+
+.CodeMirror-gutter-elt {
+    position: absolute;
+    cursor: default;
+    z-index: 4
+}
+
+.CodeMirror-lines {
+    cursor: text
+}
+
+.CodeMirror pre {
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    border-width: 0;
+    background: 0 0;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    white-space: pre;
+    word-wrap: normal;
+    color: inherit;
+    z-index: 2;
+    position: relative;
+    overflow: visible
+}
+
+.CodeMirror-wrap pre {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: normal
+}
+
+.CodeMirror-lines {
+    padding: 0.3em;
+}
+
+.CodeMirror-code pre {
+    border-right: 30px solid transparent;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content
+}
+
+.CodeMirror-wrap .CodeMirror-code pre {
+    border-right: none;
+    width: auto
+}
+
+.CodeMirror-linebackground {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 0
+}
+
+.CodeMirror-linewidget {
+    position: relative;
+    z-index: 2;
+    overflow: auto
+}
+
+.CodeMirror-wrap .CodeMirror-scroll {
+    overflow-x: hidden
+}
+
+.CodeMirror-measure {
+    position: absolute;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden
+}
+
+.CodeMirror-measure pre {
+    position: static
+}
+
+.CodeMirror div.CodeMirror-cursor {
+    position: absolute;
+    visibility: hidden;
+    border-right: none;
+    width: 0;
+    border-left: 2px solid var(--code-color);
+}
+
+.CodeMirror div.CodeMirror-cursor {
+    visibility: hidden
+}
+
+.CodeMirror-focused div.CodeMirror-cursor {
+    visibility: inherit
+}
+
+.cm-searching {
+    background: #ffa;
+    background: rgba(255, 255, 0, .4)
+}
+
+span.cm-underlined {
+    text-decoration: underline
+}
+
+span.cm-strikethrough {
+    text-decoration: line-through
+}
+
+.cm-tw-syntaxerror {
+    color: #FFF;
+    background-color: #900
+}
+
+.cm-tw-deleted {
+    text-decoration: line-through
+}
+
+.cm-tw-header5 {
+    font-weight: 700
+}
+
+.cm-tw-listitem:first-child {
+    padding-left: 10px
+}
+
+.cm-tw-box {
+    border-top-width: 0 !important;
+    border-style: solid;
+    border-width: 1px;
+    border-color: inherit
+}
+
+.cm-tw-underline {
+    text-decoration: underline
+}
+
+@media print {
+    .CodeMirror div.CodeMirror-cursor {
+        visibility: hidden
+    }
+}
