@@ -9,7 +9,7 @@ declare -A SYNC_PATHS=(
     ["/d/QLRepo/QLConfig/Typora/"]="Editors/"
     ["/d/QLRepo/QLConfig/Coding/MySQL/"]="./"
     ["/d/QLRepo/QLConfig/Coding/Maven/"]="./"
-    ["/d/QLRepo/QLConfig/Linux/Scripts/"]="./"
+    ["/d/QLRepo/QLConfig/Scripts/"]="./"
 )
 
 # Synchronization function
