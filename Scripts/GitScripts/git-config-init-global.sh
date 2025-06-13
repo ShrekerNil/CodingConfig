@@ -17,7 +17,7 @@ git config --global core.safecrlf true
   # git config --global core.safecrlf warn
 
 # translate to LF when commit, not change when checkout
-echo "git config --global core.autocrlf=false ..."
+echo "Configing git config --global core.autocrlf=false ..."
 git config --global core.autocrlf false
   #提交时转换为LF，检出时转换为CRLF
   # git config --global core.autocrlf true   

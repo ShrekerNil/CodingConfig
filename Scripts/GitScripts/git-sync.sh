@@ -1,324 +1,272 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Enhanced Git Sync Script with Command Tracing
-# Version: 4.1 (Added command tracing)
+# git-sync.sh
 
-declare -g CMD_OUTPUT=""
+# Enhanced Git Sync Script with Strict Error Handling
 
-# Color Output Functions
-function echo_success() { echo -e "GIT-SYNC:" "\033[32m$1\033[0m"; }
-function echo_failure() { echo -e "GIT-SYNC:" "\033[41;37m$1\033[0m"; }
-function echo_warning() { echo -e "GIT-SYNC:" "\033[43;30m$1\033[0m"; }
-function echo_info() { echo -e "GIT-SYNC:" "\033[40;37m$1\033[0m"; }
-function echo_separator() { echo -e "GIT-SYNC:" "\033[44;37m$1\033[0m"; }
+# 状态码处理规范：
+#   退出代码      含义            触发场景示例
+#   0             成功执行        所有操作正常完成
+#   1             通用错误        命令执行失败、参数错误等
+#   2             仓库状态错误    非Git仓库、分离HEAD状态
+#   3             配置错误        无远程仓库配置
+#   4             同步冲突        合并冲突、推送冲突
+#   5             网络错误        拉取/推送操作超时
 
-# Command executing function
+declare -a REMOTES=()
+declare CURRENT_BRANCH=""
+
+# -------------------------------
+# Source the logging library
+SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SHLIB="$SOURCE_DIR/../shlib/shell_lib.sh"
+if [[ -f "${SHLIB}" ]]; then
+    source "${SHLIB}"
+else
+    echo "ERROR: CAN'T FIND ${SHLIB}"
+    exit 1
+fi
+log_info "--- shell_lib.sh HAS BEEN IMPORTED ---"
+
+# -------------------------------
+# Error Handling Functions
+# -------------------------------
+function fatal_error() {
+    local msg="$1"
+    local exit_code=${2:-1} # 默认退出码为1
+
+    log_error "FATAL: $msg"
+    log_separator3
+    log_error "ABORTED: Process failed with exit code $exit_code"
+    exit $exit_code
+}
+
+# -------------------------------
+# Command Execution Functions
+# 用于常规命令 - 失败立即退出
+# -------------------------------
 function execute_command() {
-    echo_info "------------------------"
-    local cmd="$1"
-    local suppress_output="${2:-false}"
-
-    # print command
-    echo_info "COMMAND: $cmd"
-
-    # Executing command and capture output
-    CMD_OUTPUT=$(eval "$cmd" 2>&1)
-    local exit_code=$?
-
-    # print output
-    if ! $suppress_output; then
-        [[ -n "$CMD_OUTPUT" ]] && echo_info "OUTPUT: \n$CMD_OUTPUT" || echo_info "OUTPUT: (no output)"
+    log_info "Executing: $*"
+    output=$("$@" 2>&1)
+    status=$?
+    if [ $status -ne 0 ]; then
+        log_error "Command failed with status $status"
+        log_error "Output: ${output:-(No output)}"
+        fatal_error "Command failed: $*" $status
     fi
 
-    return $exit_code
+    log_info "Output: ${output:-(No output)}"
+    return 0
 }
 
-# Error Handling with special codes
-function judgement() {
-    local cmd=$1
-    local result_code=$2
-    local output=$3
 
-    [[ -n "$output" ]] && echo_info "$output"
-
-    if ((result_code != 0)); then
-        case $result_code in
-        1) echo_failure "ERROR: Common Unknown Error" ;;
-        2) echo_failure "ERROR: Command mistake" ;;
-        126) echo_failure "ERROR: Permission denied" ;;
-        127) echo_failure "ERROR: Command not found" ;;
-        128 | 129 | 130 | 131 | 137 | 141 | 143)
-            echo_failure "ERROR: Signal error (code $result_code)"
-            ;;
-        201) return 0 ;; # Special case for skip push
-        255) echo_failure "ERROR: Invalid exit status" ;;
-        *) echo_failure "UNEXPECTED CODE: $result_code" ;;
-        esac
-
-        echo_failure "Command failed: $cmd"
-        return $result_code
+# -------------------------------
+# Command Execution Functions
+# 用于状态检查命令 - 不视为错误，只返回状态
+# -------------------------------
+function check_status() {
+    log_info "Checking status: $*"
+    if output=$("$@" 2>&1); then
+        log_info "Status: success"
+        return 0
+    else
+        local status=$?
+        log_info "Status: $status (not fatal)"
+        return $status
     fi
 }
 
+# -------------------------------
 # Core Functions
-function new_line() { echo; }
-function print_header() {
-    new_line
-    echo_separator "╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱"
+# -------------------------------
+function check_untracked_files() {
+    log_info "Checking untracked files..."
+    if check_status git ls-files --others --exclude-standard; then
+        [ -z "$output" ] && return 0
+    fi
+    return 1
 }
 
-# Validate repository and detect changes
-function check_repo_status() {
-    print_header
-    echo_info "Validating repository ..."
-
-    # Check if in git repository
-    execute_command "git rev-parse --is-inside-work-tree"
-    local is_git_repo=$?
-    if ((is_git_repo != 0)); then
-        echo_failure "Not a Git repository!"
-        exit 128
+function has_untracked_changes() {
+    # 检查工作区是否有未暂存的修改
+    if ! check_status git diff-index --quiet HEAD --; then
+        return 0 # 有未暂存的修改
     fi
 
-    # Detect all configured remotes
-    execute_command "git remote"
-    local remotes_output="$CMD_OUTPUT"
-    local -g remotes=($(echo "$remotes_output" | uniq))
+    # 检查暂存区是否有修改
+    if ! check_status git diff --cached --quiet; then
+        return 0 # 有暂存的修改
+    fi
 
-    if [[ ${#remotes[@]} -eq 0 ]]; then
-        echo_warning "No git remotes configured!"
+    return 1 # 没有未提交的修改
+}
+
+function get_remotes() {
+    log_info "Fetching remotes..."
+    execute_command git remote
+    mapfile -t REMOTES <<<"$output"
+    [ ${#REMOTES[@]} -eq 0 ] && fatal_error "No remotes configured" 3
+}
+
+function get_current_branch() {
+    log_info "Getting current branch..."
+
+    local branch_output
+    if ! branch_output=$(git symbolic-ref --short HEAD 2>/dev/null); then
+        fatal_error "Detached HEAD state or invalid branch" 2
+    fi
+
+    CURRENT_BRANCH="$branch_output"
+    log_info "Current branch: $CURRENT_BRANCH"
+}
+
+function special_remote_order() {
+    local has_gitee=0 has_github=0
+    for remote in "${REMOTES[@]}"; do
+        [[ "$remote" == "gitee" ]] && has_gitee=1
+        [[ "$remote" == "github" ]] && has_github=1
+    done
+    ((has_gitee && has_github))
+}
+
+function pull_remotes() {
+    if has_untracked_changes; then
+        log_warn "Working directory not clean before pull, committing changes..."
+        execute_command git add .
+        execute_command git commit -m "Pre-pull commit: $(date +%Y%m%d_%H%M%S)"
+    fi
+
+    if special_remote_order; then
+        execute_command git pull gitee "$CURRENT_BRANCH"
+        execute_command git pull github "$CURRENT_BRANCH"
     else
-        echo_info "Configured remotes: ${remotes[*]}"
+        for remote in "${REMOTES[@]}"; do
+            execute_command git pull "$remote" "$CURRENT_BRANCH"
+        done
     fi
-
-    # Get current branch
-    execute_command "git symbolic-ref --short HEAD"
-    local current_branch="$CMD_OUTPUT"
-    [[ -z "$current_branch" ]] && current_branch="main"
-    echo_info "Working branch: $current_branch"
-
-    # Check working directory status
-    local has_uncommitted=0
-    execute_command "git diff-index --quiet HEAD --"
-    (($? != 0)) && has_uncommitted=1
-
-    local has_untracked=0
-    execute_command "git ls-files --others --exclude-standard"
-    [[ -n "$CMD_OUTPUT" ]] && has_untracked=1
-
-    # Check remote status for all remotes
-    for remote in "${remotes[@]}"; do
-        execute_command "git fetch $remote"
-    done
-
-    # Calculate divergence from remotes
-    local -A behind_counts ahead_counts
-    for remote in "${remotes[@]}"; do
-        local remote_ref="$remote/$current_branch"
-        execute_command "git rev-list --count $current_branch..$remote_ref" true
-        behind_counts[$remote]=${CMD_OUTPUT:-0}
-        execute_command "git rev-list --count $remote_ref..$current_branch" true
-        ahead_counts[$remote]=${CMD_OUTPUT:-0}
-    done
-
-    # Determine required actions
-    NEEDS_COMMIT=$((has_uncommitted || has_untracked))
-    NEEDS_PULL=0
-    NEEDS_PUSH=0
-
-    for remote in "${remotes[@]}"; do
-        ((${behind_counts[$remote]} > 0)) && NEEDS_PULL=1
-        ((${ahead_counts[$remote]} > 0)) && NEEDS_PUSH=1
-    done
-
-    # Print status summary
-    echo_info "Uncommitted changes: $has_uncommitted"
-    echo_info "Untracked files: $has_untracked"
-    for remote in "${remotes[@]}"; do
-        echo_info "$remote: ${behind_counts[$remote]} behind, ${ahead_counts[$remote]} ahead"
-    done
 }
 
-# Commit changes only when necessary
-function commit_changes() {
-    print_header
-    echo_info "Checking staged changes ..."
+function needs_push() {
+    for remote in "${REMOTES[@]}"; do
+        log_info "Checking remote branch: $remote/$CURRENT_BRANCH"
+        if ! check_status git ls-remote --exit-code --heads "$remote" "$CURRENT_BRANCH"; then
+            log_warn "Remote branch missing on $remote (needs initial push)"
+            return 0
+        fi
 
-    execute_command "git diff-index --quiet HEAD --"
-    local staged_changes=$?
-    execute_command "git ls-files --others --exclude-standard"
-    local untracked_files=$?
-    if ((staged_changes == 0 && untracked_files == 0)); then
-        echo_info "No changes to commit."
-        return 0
-    fi
+        log_info "Calculating commit difference for $remote"
+        local commit_count
+        if ! commit_count=$(git rev-list --count "$remote/$CURRENT_BRANCH"..HEAD 2>/dev/null); then
+            log_error "Failed to get commit count for $remote"
+            return 0
+        fi
 
-    execute_command "git add --all"
-    judgement "git add" $? || return $?
-
-    execute_command "git diff --cached --quiet"
-    if (($? == 0)); then
-        echo_info "No changes to commit after staging."
-        return 0
-    fi
-
-    execute_command "git commit -m \"-- Auto Commit --\""
-    judgement "git commit" $? || return $?
-}
-
-# Safe pull implementation with merge checks
-function pull_from_remote() {
-    local remote=$1
-    print_header
-    echo_info "Syncing from $remote ..."
-
-    execute_command "git symbolic-ref --short HEAD"
-    local current_branch=${output:-main}
-
-    execute_command "git fetch $remote $current_branch"
-    judgement "git fetch $remote" $? || return $?
-
-    execute_command "git diff --quiet $remote/$current_branch $current_branch"
-    if (($? == 0)); then
-        echo_info "No changes to pull from $remote."
-        return 0
-    fi
-
-    execute_command "git merge --no-edit $remote/$current_branch"
-    judgement "git merge $remote" $? || return $?
-}
-
-# Safe push implementation with conflict checks
-function push_to_remote() {
-    local remote=$1
-    print_header
-    echo_info "Preparing push to $remote ..."
-
-    execute_command "git symbolic-ref --short HEAD"
-    local current_branch=${output:-main}
-
-    execute_command "git fetch $remote"
-    local has_conflicts=0
-    execute_command "git rev-list $remote/$current_branch --not $current_branch"
-    [[ -n "$output" ]] && has_conflicts=1
-
-    if ((has_conflicts)); then
-        echo_warning "Remote $remote has unmerged changes. Push skipped."
-        return 201
-    fi
-
-    execute_command "git diff --quiet $remote/$current_branch HEAD"
-    if (($? == 0)); then
-        echo_info "No changes to push to $remote."
-        return 0
-    fi
-
-    case $remote in
-    "gitee")
-        execute_command "git push $remote $current_branch"
-        ;;
-    "github")
-        execute_command "git push --force-with-lease $remote $current_branch"
-        ;;
-    *)
-        execute_command "git push $remote $current_branch"
-        ;;
-    esac
-    judgement "git push $remote" $? || return $?
-}
-
-# Main synchronization workflow
-function sync_repository() {
-    check_repo_status
-
-    # Commit if needed
-    if ((NEEDS_COMMIT)); then
-        commit_changes || return $?
-    fi
-
-    # Pull from all remotes
-    local pull_errors=0
-    echo_info "remotes：${remotes[@]}"
-    for remote in "${remotes[@]}"; do
-        if ! pull_from_remote "$remote"; then
-            pull_errors=$((pull_errors + 1))
+        log_info "Commit difference for $remote: $commit_count"
+        # 确保只处理数字
+        if [[ "$commit_count" =~ ^[0-9]+$ ]] && [ "$commit_count" -gt 0 ]; then
+            return 0
         fi
     done
-
-    # Push to all remotes
-    local push_errors=0
-    for remote in "${remotes[@]}"; do
-        if ! push_to_remote "$remote"; then
-            [[ $? -eq 201 ]] || push_errors=$((push_errors + 1))
-        fi
-    done
-
-    # Final status check
-    local final_status=$(git status --porcelain 2>&1)
-    if [[ -n "$final_status" ]]; then
-        echo_warning "Uncommitted changes remain after sync."
-        return 1
-    fi
-
-    return $((pull_errors + push_errors))
+    return 1
 }
 
-# Entry point
+function push_remotes() {
+    if [[ ! -f "mine" ]]; then
+        log_warn "Did not detecte 'mine' file, skipping push operations"
+        return 0
+    fi
+
+    if special_remote_order; then
+        execute_command git push gitee "$CURRENT_BRANCH"
+        execute_command git push github "$CURRENT_BRANCH"
+    else
+        for remote in "${REMOTES[@]}"; do
+            execute_command git push "$remote" "$CURRENT_BRANCH"
+        done
+    fi
+}
+
+# -------------------------------
+# Main Workflow
+# -------------------------------
 function main() {
-    local target_dir=${1:-$(pwd)}
+    log_separator3
+    log_info "Step 1: Validate repository ..."
+    execute_command git rev-parse --is-inside-work-tree
 
-    # Validate directory
-    if [[ ! -d "$target_dir" ]]; then
-        echo_failure "Invalid directory: $target_dir"
-        exit 200
+    # 新增：切换到仓库根目录
+    repo_root=$(git rev-parse --show-toplevel) || fatal_error "Failed to get repository root" 2
+    cd "$repo_root" || fatal_error "Failed to cd to repository root" 2
+    log_info "Changed to repository root: $repo_root"
+
+    log_separator3
+    log_info "Step 2: Checking bash file 'syncing.sh' ..."
+    if [[ -f ./syncing.sh ]]; then
+        execute_command bash ./syncing.sh
     fi
 
-    print_header
-    echo_info "Initializing sync for: $target_dir"
-
-    # Change working directory
-    if ! cd "$target_dir"; then
-        echo_failure "Access denied: $target_dir"
-        exit 200
-    fi
-
-    # Execute synchronization
-    function execute_syncing_script() {
-        # 执行同步前预处理
-        echo_info "正在执行同步预处理..."
-        if [[ -f "syncing.sh" ]]; then
-            echo_info "Found syncing.sh, executing..."
-            execute_command "bash syncing.sh"
-            if (($? != 0)); then
-                echo_warning "同步预处理执行失败，错误码：$?"
-                return 201  # 返回特殊状态码
-            fi
-        fi
-        return 0
-    }
-
-    # 执行预处理函数
-    execute_syncing_script
-    if (($? != 0)); then
-        echo_warning "预处理脚本执行失败，继续同步流程..."
-    fi
-
-    # 执行同步操作
-    sync_repository
-    local sync_result=$?
-
-    # Report final status
-    new_line
-    if [[ $sync_result -eq 0 ]]; then
-        echo_success "Synchronization completed"
+    log_separator3
+    log_info "Step 3: Handle untracked files ..."
+    if check_untracked_files; then
+        log_info "No untracked files"
     else
-        echo_failure "Completed with $sync_result errors"
-        exit $sync_result
+        log_separator4
+        log_warn "Adding untracked files..."
+        execute_command git add .
     fi
 
-    new_line
-    [[ -z $1 ]] && read -p "Press Enter to exit ..."
-    exit 0
+    log_separator3
+    log_info "Step 4: Handle uncommitted changes ..."
+    if has_untracked_changes; then
+        log_separator4
+        log_info "Staging changes..."
+        execute_command git add .
+
+        if check_status git diff --cached --quiet; then
+            log_info "No changes to commit"
+        else
+            log_separator4
+            log_info "Committing changes..."
+            execute_command git commit -m "Auto commit: $(date +%Y%m%d_%H%M%S)"
+        fi
+    else
+        log_info "No uncommitted changes"
+    fi
+
+    log_separator3
+    log_info "Step 5: Handle remotes ..."
+
+    log_separator4
+    get_remotes
+
+    log_separator4
+    get_current_branch
+
+    log_separator4
+    pull_remotes
+
+    log_separator3
+    log_info "Step 6: Handle push ..."
+    if needs_push; then
+        log_separator4
+        log_info "Pushing changes..."
+        push_remotes
+    else
+        log_success "No changes need to push ..."
+    fi
+
+    log_success "Synchronization completed"
 }
 
-main "$@"
+# -------------------------------
+# Entry Point
+# -------------------------------
+main || {
+    final_exit=$?
+    log_separator3
+    log_error "ABORTED: Process failed with exit code $final_exit"
+    exit $final_exit
+}
+
+log_separator3
+exit 0

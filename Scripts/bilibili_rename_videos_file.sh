@@ -3,7 +3,7 @@
 # Traverse all .mp4 files in the current directory
 for file in *.mp4; do
     # Use a regular expression to match and extract the new filename
-    if [[ "$file" =~ ^(.*)[-_]720P[\ -_]高清[-_]AVC([0-9]+)(\..+)$ ]]; then
+    if [[ "$file" =~ ^(.*)[-_]720P[\ -_]*高清[-_]AVC([0-9]+)(\..+)$ ]]; then
         # Extract parts of the filename
         prefix="${BASH_REMATCH[1]}"
         number="${BASH_REMATCH[2]}"
