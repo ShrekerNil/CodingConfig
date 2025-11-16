@@ -1,4 +1,5 @@
 #!/bin/bash
+# syncing.sh
 
 # Define global associative array
 declare -A SYNC_PATHS=(
