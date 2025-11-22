@@ -55,7 +55,7 @@ function execute_command() {
         fatal_error "Command failed: $*" $status
     fi
 
-    log_info "Output: ${output:-(No output)}"
+    log_info "Output: \n${output:-(No output)}"
     return 0
 }
 
