@@ -51,11 +51,11 @@ function execute_command() {
     status=$?
     if [ $status -ne 0 ]; then
         log_error "Command failed with status $status"
-        log_error "Output: \n${output:-(No output)}"
+        log_error $'Output: \n'"${output:-(No output)}"
         fatal_error "Command failed: $*" $status
     fi
 
-    log_info "Output: \n${output:-(No output)}"
+    log_info $'Output: \n'"${output:-(No output)}"
     return 0
 }
 
