@@ -17,14 +17,14 @@ fi
 log_info "--- shell_lib.sh HAS BEEN IMPORTED ---"
 
 # Global configuration
-ROOT_DIR='/d/QLRepo'
+ROOT_DIR='/d/Repos'
 EXCLUDES=(
-    "/d/QLRepo/Temps"
+    "${ROOT_DIR}/Temps"
     # Add more excluded paths here
 )
 
 # Log file configuration
-LOG_FILE="${ROOT_DIR}/git_sync.log"
+LOG_FILE="${ROOT_DIR}/git-sync-all-sub-repos.log"
 
 # Initialize associative array for directory exclusion checks
 declare -A EXCLUDE_MAP

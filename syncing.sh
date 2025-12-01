@@ -3,14 +3,14 @@
 
 # Define global associative array
 declare -A SYNC_PATHS=(
-    ["/d/QLRepo/QLConfig/Coding/Intellij/IdeaSetting_2023.3.8.zip"]="Intellij/"
-    ["/d/QLRepo/QLConfig/Coding/Intellij/idea64.exe.vmoptions"]="Intellij/"
-    ["/d/QLRepo/QLConfig/Sublime/"]="Editors/"
-    ["/d/QLRepo/QLConfig/VSCode/"]="Editors/"
-    ["/d/QLRepo/QLConfig/Typora/"]="Editors/"
-    ["/d/QLRepo/QLConfig/Coding/MySQL/"]="./"
-    ["/d/QLRepo/QLConfig/Coding/Maven/"]="./"
-    ["/d/QLRepo/QLConfig/Scripts/"]="./"
+    ["/d/Repos/QLConfig/Coding/Intellij/IdeaSetting_2023.3.8.zip"]="Intellij/"
+    ["/d/Repos/QLConfig/Coding/Intellij/idea64.exe.vmoptions"]="Intellij/"
+    ["/d/Repos/QLConfig/Sublime/"]="Editors/"
+    ["/d/Repos/QLConfig/VSCode/"]="Editors/"
+    ["/d/Repos/QLConfig/Typora/"]="Editors/"
+    ["/d/Repos/QLConfig/Coding/MySQL/"]="./"
+    ["/d/Repos/QLConfig/Coding/Maven/"]="./"
+    ["/d/Repos/QLConfig/Scripts/"]="./"
 )
 
 # Synchronization function
