@@ -1,39 +1,34 @@
 #!/bin/bash
 
-show_new_line() {
-    echo -e "\n"
-}
-
 # Program Name
 program_operate="Typora"
+profile_dir="/c/Users/Shreker/AppData/Roaming/Typora"
+theme_dir="${profile_dir}/themes"
 
 # Arrays for file backups and recoveries
-file_recoveries=("/c/Users/Shreker/AppData/Roaming/Typora/themes/purple-square-light.css"
-    "/c/Users/Shreker/AppData/Roaming/Typora/themes/purple-square-dark.css"
-    "/c/Users/Shreker/AppData/Roaming/Typora/themes/codemirror-dark.css"
-    "/c/Users/Shreker/AppData/Roaming/Typora/themes/codemirror-light.css"
-    "/c/Users/Shreker/AppData/Roaming/Typora/profile.data")
-file_backups=("./Settings/purple-square-light.css"
+file_recoveries=(
+    "${theme_dir}/purple-square-light.css"
+    "${theme_dir}/purple-square-dark.css"
+    "${theme_dir}/codemirror-dark.css"
+    "${theme_dir}/codemirror-light.css"
+    "${theme_dir}/reset_all.css"
+    "${profile_dir}/profile.data"
+)
+file_backups=(
+    "./Settings/purple-square-light.css"
     "./Settings/purple-square-dark.css"
     "./Settings/codemirror-dark.css"
     "./Settings/codemirror-light.css"
-    "./Settings/profile.data")
+    "./Settings/reset_all.css"
+    "./Settings/profile.data"
+)
 
-# Function to check if file exists
-file_exists() {
-    if [ -f "$1" ]; then
-        return 0
-    else
-        return 1
-    fi
-}
-
-# Function to copy files
+# Function to copy files with error checking
 copy_files() {
     local source_file=$1
     local target_file=$2
 
-    if file_exists "$source_file"; then
+    if [[ -f "$source_file" ]]; then
         cp "$source_file" "$target_file"
         echo "File copied successfully: $source_file -> $target_file"
     else
@@ -41,12 +36,21 @@ copy_files() {
     fi
 }
 
+# Function to clear the themes directory before recovery
+clear_themes_directory() {
+    # Remove all .css files in the directory
+    find "$theme_dir" -type f -name "*.css" -exec rm -f {} \;
+    # Remove all directories in the themes directory (excluding hidden ones, i.e., starting with a dot)
+    find "$theme_dir" -mindepth 1 -maxdepth 1 -type d ! -name ".*" -exec rm -rf {} +
+}
+
 # Main script logic
 while true; do
     echo "=============================================="
     echo "Please choose an option for ${program_operate}:"
-    echo "1) Backup files"
-    echo "2) Recover files"
+    echo "  1) Backup files"
+    echo "  2) Recover files"
+    echo "=============================================="
     read -p "Enter your choice (1/2): " choice
 
     case $choice in
@@ -57,22 +61,23 @@ while true; do
             done
             ;;
         2)
+            echo "Clearing Typora's themes directory before recovery..."
+            clear_themes_directory
             echo "Starting recovery process..."
-            for i in "${!file_recoveries[@]}"; do
+            for i in "${!file_backups[@]}"; do
                 copy_files "${file_backups[$i]}" "${file_recoveries[$i]}"
             done
             ;;
         *)
             echo "Invalid option selected."
+            continue
             ;;
     esac
 
-    # read -p "Do you want to continue? (yes/no): " cont
-    # if [[ "$cont" != "yes" ]]; then
-    #     break
-    # fi
-    # read -p "Press ENTER to continue or Any other key to exit: " cont
-    show_new_line
+    read -p "Press ENTER to continue or any other key to exit: " cont
+    echo ""
+    echo ""
+    echo ""
     if [[ -z "$cont" ]]; then
         continue
     else

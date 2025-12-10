@@ -1,3 +1,4 @@
+/*@import url(./reset_all.css);*/
 @import url(./codemirror-dark.css);
 
 /* ===========================
@@ -15,7 +16,6 @@
     --blockquote-border-color: rgb(102, 94, 126);
     --border: #424242;
     --context-menu-bg-color: #222;
-
     --table-border-color: #555;
     --table-header-bg: #363636;
     --mark-bg: #4d342e;
@@ -35,16 +35,11 @@
     --select-text-bg-color: rgba(255, 255, 255, 0.9);
     --outline-item-hover-color: #222;
     --code-basic-color: #aaa;
-
     --font-size: 16px;
-    --line-height: 1.3rem;
-
-    /* 字体 */
+    --line-height: 1.3rem;    /* 字体 */
     --base-font: "Maple Mono NL NF CN Light", "Sarasa Mono SC", "JetBrains Mono NL", "Microsoft YaHei";
     --code-font: var(--base-font);
-    --title-font: var(--base-font);
-
-    /* 其他 */
+    --title-font: var(--base-font);    /* 其他 */
     --item-hover-bg-color: var(--shadow-color);
     --active-file-text-color: var(--title-color);
     --active-file-bg-color: var(--shadow-color);
@@ -60,8 +55,7 @@
         font-size: 0.9rem;
     }
 
-    table,
-    pre {
+    table, pre {
         page-break-inside: avoid;
     }
 
@@ -87,6 +81,7 @@
         margin-left: 0;
         margin-right: 0;
     }
+
 }
 
 /* ===========================
@@ -172,17 +167,11 @@ a {
 /* ===========================
    6. 标题样式
    =========================== */
-
 #write {
     counter-reset: h1;
 }
 
-#write h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+#write h1, h2, h3, h4, h5, h6 {
     position: relative;
     margin-top: 2rem;
     margin-bottom: 1rem;
@@ -277,8 +266,7 @@ table {
     width: 100%;
 }
 
-table th,
-table td {
+table th, table td {
     padding: 8px;
     line-height: 1.25rem;
     vertical-align: middle;
@@ -357,8 +345,7 @@ img {
 /* ===========================
    12. 侧边栏样式
    =========================== */
-#typora-sidebar,
-.typora-node #typora-sidebar {
+#typora-sidebar, .typora-node #typora-sidebar {
     box-shadow: 3px 0px 10px var(--shadow-color);
     background-color: var(--bg-color);
 }
@@ -433,51 +420,7 @@ img {
 }
 
 /* ===========================
-   14. 代码高亮样式
-   =========================== */
-/* .cm-s-inner {
-    padding: 0.25rem;
-    border-radius: 0.25rem;
-}
-
-.cm-s-inner .cm-variable {
-    color: var(--code-basic-color);
-}
-
-.cm-s-inner .cm-property {
-    color: var(--code-basic-color);
-}
-
-.cm-s-inner.CodeMirror,
-.cm-s-inner .CodeMirror-gutters {
-    color: var(--code-highlight-text) !important;
-    border: none;
-}
-
-.cm-s-inner .CodeMirror-gutters {
-    color: var(--code-highlight-gutter);
-}
-
-.cm-s-inner .CodeMirror-linenumber {
-    padding: 0 0.1rem 0 0.3rem;
-    color: var(--code-line-number);
-}
-
-.cm-s-inner .CodeMirror-matchingbracket {
-    text-decoration: underline;
-    color: var(--code-matching-bracket) !important;
-}
-
-.cm-s-inner span.cm-comment {
-    color: var(--code-comment);
-}
-
-.cm-s-inner span.cm-builtin {
-    color: var(--code-builtin);
-} */
-
-/* ===========================
-   15. 源码模式下选中样式
+   14. 源码模式下选中样式
    =========================== */
 .CodeMirror-selected {
     background-color: var(--select-bg-color) !important;
@@ -495,14 +438,13 @@ img {
     color: var(--text-color) !important;
 }
 
-.CodeMirror-selected,
-.CodeMirror-selectedtext {
+.CodeMirror-selected, .CodeMirror-selectedtext {
     background-color: var(--select-bg-color) !important;
     color: var(--select-text-bg-color) !important;
 }
 
 /* ===========================
-   16. 偏好设置
+   15. 偏好设置
    =========================== */
 .unibody-window {
     background: var(--bg-color)
@@ -521,11 +463,6 @@ blockquote {
     background-color: var(--code-bg-color);
 }
 
-ol,
-ul {
-    margin-left: -0.5em;
-}
-
-li {
-    margin-left: 0.5em;
+.md-list-item > .ul-list {
+    margin-inline-start: -1.2em;
 }

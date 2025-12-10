@@ -216,9 +216,25 @@ For solutions to this problem please see:
 1. 搜索打开过的文件: `Ctrl + P`
 2. 代码格式化
    - 选中代码
+     - 测试1
+     - 测试2
    - 使用快捷键: `Shift+Tab`
+     - 测试11
+     - 测试22
+3. 
+4. 
+5.  
+6.  
+7.  
+8.  
+9.  
+10.  
 
 ## Typora中特殊符号
 
 - 乘号 $\times$： `$\times$`   
+  - 测试1
+  - 测试2
 - 除号 $\div$：`$\div$`
+  - 测试1
+  - 测试2

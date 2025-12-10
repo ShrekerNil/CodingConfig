@@ -1,79 +1,77 @@
 :root {
     /* 背景色 */
-    --background-color: #1e1e1e;
+    --code-bg-color: #2b2b2b;
     /* 文本颜色 */
-    --text-color: #d4d4d4;
+    --code-text-color: #a9b7c6;
     /* 关键字颜色 */
-    --keyword-color: #569cd6;
-    /* 原子类型颜色 */
-    --atom-color: #2196f3;
+    --code-keyword-color: #cc7832;
+    /* 原子类型颜色（如 true/false/null）*/
+    --code-atom-color: #9876aa;
     /* 数字颜色 */
-    --number-color: #b5cea8;
-    /* 定义颜色 */
-    --def-color: #4ec9b0;
+    --code-num-color: #6897bb;
     /* 变量颜色 */
-    --variable-color: #d4d4d4;
-    /* 变量2颜色 */
-    --variable-2-color: #9cdcfe;
-    /* 变量3颜色 */
-    --variable-3-color: #4ec9b0;
+    --code-var-color: #a9b7c6;
+    /* 变量2颜色（参数、局部变量等）*/
+    --code-var-2-color: #ffc66d;
+    /* 变量3颜色（字段、属性等）*/
+    --code-var-3-color: #9876aa;
     /* 字符串颜色 */
-    --string-color: #d69d85;
-    /* 属性颜色 */
-    --property-color: #d4d4d4;
+    --code-string-color: #6a8759;
+    /* 字符串2颜色（模板字符串、转义等，可与 string 相同）*/
+    --code-string-2-color: #6a8759;
+    /* 属性颜色（对象属性、CSS 属性等）*/
+    --code-property-color: #a9b7c6;
     /* 操作符颜色 */
-    --operator-color: #c586c0;
+    --code-operator-color: #a9b7c6;
     /* 注释颜色 */
-    --comment-color: #6a9955;
-    /* 字符串2颜色 */
-    --string-2-color: #ce9178;
-    /* 元数据颜色 */
-    --meta-color: #d4d4d4;
-    /* 限定符颜色 */
-    --qualifier-color: #d4d4d4;
-    /* 内置函数颜色 */
-    --builtin-color: #4ec9b0;
+    --code-comment-color: #808080;
+    /* 元数据颜色（如 @decorator, @annotation）*/
+    --code-meta-color: #bbb529;
+    /* 限定符颜色（如 public/private/static）*/
+    --code-qualifier-color: #cc7832;
+    /* 内置函数颜色（如 console.log, len, print）*/
+    --code-builtin-color: #ffc66d;
     /* 括号颜色 */
-    --bracket-color: #d4d4d4;
-    /* 标签颜色 */
-    --tag-color: #4ec9b0;
-    /* 属性颜色 */
-    --attribute-color: #9cdcfe;
-    /* 标题颜色 */
-    --header-color: #4ec9b0;
-    /* 引用颜色 */
-    --quote-color: #4ec9b0;
+    --code-bracket-color: #a9b7c6;
+    /* 标签颜色（HTML/XML 标签名）*/
+    --code-tag-color: #629755;
+    /* 属性颜色（HTML 属性名）*/
+    --code-attr-color: #9876aa;
+    /* 标题颜色（Markdown H1-H6）*/
+    --code-header-color: #629755;
+    /* 引用颜色（Markdown blockquote）*/
+    --code-quote-color: #6a8759;
     /* 水平线颜色 */
-    --hr-color: #d4d4d4;
+    --code-hr-color: #606060;
     /* 链接颜色 */
-    --link-color: #9cdcfe;
+    --code-link-color: #287bde;
     /* 负数颜色 */
-    --negative-color: #d44;
+    --code-negative-color: #f07070;
     /* 正数颜色 */
-    --positive-color: #292;
+    --code-positive-color: #6a9955;
     /* 错误颜色 */
-    --error-color: #f44747;
+    --code-error-color: #f07070;
     /* 无效字符颜色 */
-    --invalidchar-color: #f44747;
-    /* 常量颜色 */
-    --constant-color: #4ec9b0;
-    /* 定义颜色 */
-    --defined-color: #4ec9b0;
+    --code-invalidchar-color: #ff6b68;
+    /* 常量颜色（如 Math.PI, MAX_SIZE）*/
+    --code-constant-color: #9876aa;
+    /* 定义颜色（函数/类定义名）*/
+    --code-def-color: #ffc66d;
     /* 匹配括号颜色 */
-    --matchingbracket-color: #0f0;
+    --code-match-bracket-color: #515134;
     /* 不匹配括号颜色 */
-    --nonmatchingbracket-color: #f22;
+    --code-non-match-bracket-color: #ff6b68;
     /* 活动行背景色 */
-    --activeline-background: #2a2a2a;
+    --code-activeline-bg: #323232;
     /* 行号和代码分割线 */
-    --seperator-line-num-code: #666;
+    --code-seperator-line-num-code: #404040;
     /* 行号颜色 */
-    --code-line-number-color: #757575;
+    --code-line-number-color: #606366;
 }
 
 .CodeMirror {
-    background-color: var(--background-color);
-    color: var(--text-color);
+    background-color: var(--code-bg-color);
+    color: var(--code-text-color);
     height: 300px;
     height: auto
 }
@@ -90,7 +88,7 @@
 
 .CodeMirror-gutter-filler,
 .CodeMirror-scrollbar-filler {
-    background-color: var(--background-color);
+    background-color: var(--code-bg-color);
 }
 
 .CodeMirror-linenumber {
@@ -100,105 +98,105 @@
 }
 
 .cm-s-inner .cm-keyword {
-    color: var(--keyword-color);
+    color: var(--code-keyword-color);
 }
 
 .cm-s-inner .cm-atom,
 .cm-s-inner.cm-atom {
-    color: var(--atom-color);
+    color: var(--code-atom-color);
 }
 
 .cm-s-inner .cm-number {
-    color: var(--number-color);
+    color: var(--code-num-color);
 }
 
 .cm-s-inner .cm-def {
-    color: var(--def-color);
+    color: var(--code-def-color);
 }
 
 .cm-s-inner .cm-variable {
-    color: var(--variable-color);
+    color: var(--code-var-color);
 }
 
 .cm-s-inner .cm-variable-2 {
-    color: var(--variable-2-color);
+    color: var(--code-var-2-color);
 }
 
 .cm-s-inner .cm-variable-3 {
-    color: var(--variable-3-color);
+    color: var(--code-var-3-color);
 }
 
 .cm-s-inner .cm-string {
-    color: var(--string-color);
+    color: var(--code-string-color);
 }
 
 .cm-s-inner .cm-property {
-    color: var(--property-color);
+    color: var(--code-property-color);
 }
 
 .cm-s-inner .cm-operator {
-    color: var(--operator-color);
+    color: var(--code-operator-color);
 }
 
 .cm-s-inner .cm-comment,
 .cm-s-inner.cm-comment {
-    color: var(--comment-color);
+    color: var(--code-comment-color);
 }
 
 .cm-s-inner .cm-string-2 {
-    color: var(--string-2-color);
+    color: var(--code-string-2-color);
 }
 
 .cm-s-inner .cm-meta {
-    color: var(--meta-color);
+    color: var(--code-meta-color);
 }
 
 .cm-s-inner .cm-qualifier {
-    color: var(--qualifier-color);
+    color: var(--code-qualifier-color);
 }
 
 .cm-s-inner .cm-builtin {
-    color: var(--builtin-color);
+    color: var(--code-builtin-color);
 }
 
 .cm-s-inner .cm-bracket {
-    color: var(--bracket-color);
+    color: var(--code-bracket-color);
 }
 
 .cm-s-inner .cm-tag {
-    color: var(--tag-color);
+    color: var(--code-tag-color);
 }
 
 .cm-s-inner .cm-attribute {
-    color: var(--attribute-color);
+    color: var(--code-attr-color);
 }
 
 .cm-s-inner .cm-header,
 .cm-s-inner.cm-header {
-    color: var(--header-color);
+    color: var(--code-header-color);
 }
 
 .cm-s-inner .cm-quote,
 .cm-s-inner.cm-quote {
-    color: var(--quote-color);
+    color: var(--code-quote-color);
 }
 
 .cm-s-inner .cm-hr,
 .cm-s-inner.cm-hr {
-    color: var(--hr-color);
+    color: var(--code-hr-color);
 }
 
 .cm-s-inner .cm-link,
 .cm-s-inner.cm-link {
-    color: var(--link-color);
+    color: var(--code-link-color);
 }
 
 .cm-negative {
-    color: var(--negative-color);
+    color: var(--code-negative-color);
 }
 
 .cm-positive {
-    color: var(--positive-color);
+    color: var(--code-positive-color);
 }
 
 .cm-header,
@@ -219,31 +217,31 @@
 }
 
 .cm-error {
-    color: var(--error-color);
+    color: var(--code-error-color);
 }
 
 .cm-invalidchar {
-    color: var(--invalidchar-color);
+    color: var(--code-invalidchar-color);
 }
 
 .cm-constant {
-    color: var(--constant-color);
+    color: var(--code-constant-color);
 }
 
 .cm-defined {
-    color: var(--defined-color);
+    color: var(--code-def-color);
 }
 
 div.CodeMirror span.CodeMirror-matchingbracket {
-    color: var(--matchingbracket-color);
+    color: var(--code-match-bracket-color);
 }
 
 div.CodeMirror span.CodeMirror-nonmatchingbracket {
-    color: var(--nonmatchingbracket-color);
+    color: var(--code-non-match-bracket-color);
 }
 
 .cm-s-inner .CodeMirror-activeline-background {
-    background: var(--activeline-background);
+    background: var(--code-activeline-bg);
 }
 
 .CodeMirror {
@@ -299,8 +297,8 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
 }
 
 .CodeMirror-gutters {
-    border-right: 1px solid var(--seperator-line-num-code);
-    background: var(--background-color);
+    border-right: 1px solid var(--code-seperator-line-num-code);
+    background: var(--code-bg-color);
     white-space: nowrap;
     position: absolute;
     left: 0;
