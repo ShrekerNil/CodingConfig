@@ -4,6 +4,7 @@
 # Define global associative array
 declare -A SYNC_PATHS=(
     ["/d/Repos/QLConfig/Coding/Intellij/IdeaSetting_2023.3.8.zip"]="Intellij/"
+    ["/d/Repos/QLConfig/Coding/Intellij/IdeaSetting_2024.3.7.zip"]="Intellij/"
     ["/d/Repos/QLConfig/Coding/Intellij/idea64.exe.vmoptions"]="Intellij/"
     ["/d/Repos/QLConfig/Sublime/"]="Editors/"
     ["/d/Repos/QLConfig/VSCode/"]="Editors/"
