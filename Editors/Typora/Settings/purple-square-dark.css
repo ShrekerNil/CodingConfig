@@ -444,6 +444,248 @@ img {
 }
 
 /* ===========================
+   17. Mermaid 图表样式
+   =========================== */
+
+/* Mermaid图表容器样式 */
+.md-fences.md-diagram.md-fences-advanced {
+    background-color: var(--code-fence-bg-color) !important;
+}
+
+/* Mermaid图表SVG样式 */
+.md-diagram-panel svg {
+    font-family: var(--base-font) !important;
+}
+
+/* 图表中所有文本的通用样式 */
+.md-diagram-panel svg text,
+.md-diagram-panel svg tspan {
+    fill: var(--text-color) !important;
+    color: var(--text-color) !important;
+    font-family: var(--base-font) !important;
+    font-weight: 400 !important;
+}
+
+/* 参与者的样式 */
+.md-diagram-panel .actor {
+    fill: var(--code-bg-color) !important;
+    stroke: var(--border) !important;
+}
+
+.md-diagram-panel .actor text {
+    fill: var(--title-color) !important;
+    font-weight: 500 !important;
+}
+
+/* 消息文本样式 */
+.md-diagram-panel .messageText {
+    fill: var(--text-color) !important;
+    font-weight: 400 !important;
+}
+
+/* 循环框标签样式 */
+.md-diagram-panel .labelText,
+.md-diagram-panel .loopText {
+    fill: var(--title-color) !important;
+    font-weight: 500 !important;
+}
+
+/* 循环框样式 */
+.md-diagram-panel .labelBox {
+    fill: var(--code-bg-color) !important;
+    stroke: var(--title-color) !important;
+}
+
+/* 消息线条样式 */
+.md-diagram-panel .messageLine0,
+.md-diagram-panel .messageLine1 {
+    stroke: var(--link-color) !important;
+    stroke-width: 2px !important;
+}
+
+/* 循环框线条样式 */
+.md-diagram-panel .loopLine {
+    stroke: var(--title-color) !important;
+}
+
+/* 生命线样式 */
+.md-diagram-panel .actor-line {
+    stroke: var(--border) !important;
+    stroke-width: 0.5px !important;
+}
+
+/* 箭头头部样式 */
+.md-diagram-panel #arrowhead path {
+    fill: var(--link-color) !important;
+    stroke: var(--link-color) !important;
+}
+
+.md-diagram-panel #crosshead path {
+    stroke: var(--link-color) !important;
+}
+
+.md-diagram-panel #filled-head path {
+    fill: var(--link-color) !important;
+}
+
+/* 激活框样式 */
+.md-diagram-panel .activation0,
+.md-diagram-panel .activation1,
+.md-diagram-panel .activation2 {
+    fill: var(--code-fence-bg-color) !important;
+    stroke: var(--border) !important;
+}
+
+/* 注释框样式 */
+.md-diagram-panel .note {
+    fill: var(--mark-bg) !important;
+    stroke: var(--mark-color) !important;
+}
+
+.md-diagram-panel .noteText {
+    fill: var(--mark-color) !important;
+}
+
+/* 序列号样式 */
+.md-diagram-panel .sequenceNumber {
+    fill: var(--text-color) !important;
+}
+
+.md-diagram-panel #sequencenumber circle {
+    fill: var(--link-color) !important;
+    stroke: var(--link-color) !important;
+}
+
+/* 流程图节点样式 */
+.md-diagram-panel .node rect,
+.md-diagram-panel .node circle,
+.md-diagram-panel .node ellipse,
+.md-diagram-panel .node polygon,
+.md-diagram-panel .node path {
+    fill: var(--code-bg-color) !important;
+    stroke: var(--title-color) !important;
+}
+
+.md-diagram-panel .node .label {
+    color: var(--text-color) !important;
+}
+
+/* 流程图箭头样式 */
+.md-diagram-panel .edgePath .path {
+    stroke: var(--link-color) !important;
+}
+
+.md-diagram-panel .arrowheadPath {
+    fill: var(--link-color) !important;
+    stroke: var(--link-color) !important;
+}
+
+/* 流程图标签样式 */
+.md-diagram-panel .edgeLabel {
+    background-color: var(--code-bg-color) !important;
+    color: var(--text-color) !important;
+}
+
+.md-diagram-panel .edgeLabel rect {
+    fill: var(--code-bg-color) !important;
+    opacity: 0.8 !important;
+}
+
+/* 集群样式 */
+.md-diagram-panel .cluster rect {
+    fill: var(--code-fence-bg-color) !important;
+    stroke: var(--border) !important;
+}
+
+.md-diagram-panel .cluster text {
+    fill: var(--title-color) !important;
+}
+
+/* 甘特图样式 */
+.md-diagram-panel .section0,
+.md-diagram-panel .section1,
+.md-diagram-panel .section2,
+.md-diagram-panel .section3 {
+    fill: var(--code-bg-color) !important;
+}
+
+.md-diagram-panel .today {
+    fill: var(--mark-bg) !important;
+}
+
+.md-diagram-panel .task {
+    stroke: var(--title-color) !important;
+}
+
+.md-diagram-panel .taskText {
+    fill: var(--text-color) !important;
+}
+
+/* 流程图节点矩形样式 */
+.md-diagram-panel .node rect.basic {
+    fill: var(--code-bg-color) !important;
+    stroke: var(--title-color) !important;
+    stroke-width: 2px !important;
+}
+
+/* 流程图节点菱形（决策）样式 */
+.md-diagram-panel .node polygon {
+    fill: var(--code-fence-bg-color) !important;
+    stroke: var(--link-color) !important;
+    stroke-width: 2px !important;
+}
+
+/* 流程图节点标签文字样式 */
+.md-diagram-panel .nodeLabel {
+    color: var(--text-color) !important;
+    font-weight: 400 !important;
+}
+
+/* 流程图连线箭头样式 */
+.md-diagram-panel .arrowMarkerPath {
+    fill: var(--link-color) !important;
+    stroke: var(--link-color) !important;
+}
+
+/* 流程图连线路径样式 */
+.md-diagram-panel .flowchart-link {
+    stroke: var(--link-color) !important;
+    stroke-width: 2px !important;
+}
+
+/* 流程图连线标签样式 */
+.md-diagram-panel .edgeLabel {
+    background-color: var(--code-bg-color) !important;
+}
+
+.md-diagram-panel .edgeLabel rect {
+    fill: var(--code-bg-color) !important;
+    opacity: 0.9 !important;
+}
+
+.md-diagram-panel .edgeLabel span {
+    color: var(--link-color) !important;
+    font-weight: 500 !important;
+}
+
+/* 确保foreignObject内的文本颜色正确 */
+.md-diagram-panel foreignObject div {
+    color: var(--text-color) !important;
+}
+
+/* 流程图的marker样式 */
+.md-diagram-panel .marker.flowchart path,
+.md-diagram-panel .marker.flowchart circle {
+    fill: var(--link-color) !important;
+    stroke: var(--link-color) !important;
+}
+
+/* 流程图marker交叉样式 */
+.md-diagram-panel .marker.cross.flowchart path {
+    stroke: var(--link-color) !important;
+}
+
+/* ===========================
    15. 偏好设置
    =========================== */
 .unibody-window {
